@@ -14,11 +14,11 @@ camera.position.setZ(30);
 
 renderer.render(scene, camera);
 
-const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
-const material = new THREE.MeshStandardMaterial({ color: 0xFF6347 });
-const torus = new THREE.Mesh(geometry, material);
+// const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+// const material = new THREE.MeshStandardMaterial({ color: 0xFF6347 });
+// const torus = new THREE.Mesh(geometry, material);
 
-scene.add(torus);
+// scene.add(torus);
 
 const pointLight = new THREE.PointLight(0xffffff);
 pointLight.position.set(5,5,5);
@@ -26,9 +26,9 @@ pointLight.position.set(5,5,5);
 const ambientLight = new THREE.AmbientLight(0xffffff);
 scene.add(pointLight, ambientLight);
 
-const lightHelper = new THREE.PointLightHelper(pointLight);
+// const lightHelper = new THREE.PointLightHelper(pointLight);
 const gridHelper = new THREE.GridHelper(200, 50);
-scene.add(lightHelper, gridHelper);
+scene.add( gridHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -48,25 +48,43 @@ Array(500).fill().forEach(addStar);
 const spaceTexture = new THREE.TextureLoader().load('galaxy.jpeg');
 scene.background = spaceTexture;
 
-const moonTexture = new THREE.TextureLoader().load('venus.jpeg');
+const faceTexture = new THREE.TextureLoader().load('face.jpeg');
 // const normalTexture = new THREE.TextureLoader().load('normal.jpg');
 
-const moon = new THREE.Mesh(
+const face = new THREE.Mesh(
   new THREE.SphereGeometry(3, 32, 32),
   new THREE.MeshStandardMaterial({
-    map: moonTexture
+    map: faceTexture
     // normalMap: normalTexture,
   })
 );
 
-scene.add(moon);
+scene.add(face);
+
+// moon.position.z = 30;
+// moon.position.setX(-10);
+
+function moveCamera() {
+
+  const t = document.body.getBoundingClientRect().top;
+  face.rotation.x += 0.5; 
+  face.rotation.y += 0.75; 
+  face.rotation.z += 0.5; 
+  
+  camera.position.z += -0.01; 
+  camera.position.x += -0.0002; 
+  camera.rotation.y += -0.0002; 
+}
+
+document.body.onscroll = moveCamera;
+moveCamera();
 
 function animate() {
   requestAnimationFrame(animate);
   
-  torus.rotation.x += 0.01; 
-  torus.rotation.y += 0.005; 
-  torus.rotation.z += 0.01; 
+  face.rotation.x += 0.01; 
+  face.rotation.y += 0.05; 
+  face.rotation.z += 0.01; 
 
   controls.update();
 
