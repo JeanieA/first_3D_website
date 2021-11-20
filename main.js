@@ -48,6 +48,19 @@ Array(500).fill().forEach(addStar);
 const spaceTexture = new THREE.TextureLoader().load('galaxy.jpeg');
 scene.background = spaceTexture;
 
+const moonTexture = new THREE.TextureLoader().load('venus.jpeg');
+// const normalTexture = new THREE.TextureLoader().load('normal.jpg');
+
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(3, 32, 32),
+  new THREE.MeshStandardMaterial({
+    map: moonTexture
+    // normalMap: normalTexture,
+  })
+);
+
+scene.add(moon);
+
 function animate() {
   requestAnimationFrame(animate);
   
